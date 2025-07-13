@@ -1,0 +1,60 @@
+# Node & npm artifacts
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.pnpm-debug.log
+
+# Frontend build outputs
+frontend/dist/
+frontend/build/
+
+# Python cache and envs
+__pycache__/
+*.py[cod]
+proxy/.venv/
+proxy/env/
+proxy/venv/
+*.pyo
+*.pyd
+
+# Compiled distribution files
+proxy/dist/
+proxy/*.egg-info/
+
+# Logs & coverage
+*.log
+.coverage
+coverage/
+*.cover
+
+# Tests
+*.test.*
+*.spec.*
+
+# IDE & editor folders
+.DS_Store
+.vscode/
+.idea/
+
+# Git metadata
+.git/
+.gitignore
+
+# Env & secrets
+.env
+.env.*
+*.local
+*.bak
+*.tmp
+
+# Swap files
+*.swp
+
+# Docs screenshots and Markdown only for dev/docs, not in image
+docs/
+!docs/DEVELOPMENT.md
+
+# Docker/Compose
+deploy/compose/
+deploy/scripts/
