@@ -1,0 +1,51 @@
+services:
+  registry:
+    image: registry:2
+    container_name: registry
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    networks:
+      - registry_network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:5000/v2/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  proxy:
+    image: ghcr.io/jwoirhaye/registry-view/registry-view-proxy:latest
+    container_name: registry-view-proxy
+    ports:
+      - "8000:80"
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - registry_network
+    depends_on:
+      registry:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
+  front:
+    image: ghcr.io/jwoirhaye/registry-view/registry-view-frontend:latest
+    container_name: registry-view-front
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      proxy:
+        condition: service_healthy
+    networks:
+      - registry_network
+
+networks:
+  registry_network:
+    driver: bridge
